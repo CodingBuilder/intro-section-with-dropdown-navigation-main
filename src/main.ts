@@ -1,59 +1,35 @@
-let features = document.querySelector(".features") as HTMLLIElement;
-let featuresMenu = document.querySelector(".features .menu") as HTMLUListElement;
+const toggleMenu = (parent: HTMLLIElement, menu: HTMLUListElement, arrow: HTMLImageElement) => {
+  parent.classList.toggle("clicked");
+  menu.classList.toggle("show");
+  arrow.src = parent.classList.contains("clicked")
+    ? "images/icon-arrow-up.svg"
+    : "images/icon-arrow-down.svg";
+};
 
-let company = document.querySelector(".company") as HTMLLIElement;
-let companyMenu = document.querySelector(".company .menu") as HTMLUListElement;
+const features = document.querySelector(".features") as HTMLLIElement;
+const featuresMenu = document.querySelector(".features .menu") as HTMLUListElement;
+const company = document.querySelector(".company") as HTMLLIElement;
+const companyMenu = document.querySelector(".company .menu") as HTMLUListElement;
+const arrowfeat = features.querySelector("img") as HTMLImageElement;
+const arrowcomp = company.querySelector("img") as HTMLImageElement;
 
-let arrowfeat = features.children[0].children[0] as HTMLImageElement;
-let arrowcomp = company.children[0].children[0] as HTMLImageElement;
+features.addEventListener("click", () => toggleMenu(features, featuresMenu, arrowfeat));
+company.addEventListener("click", () => toggleMenu(company, companyMenu, arrowcomp));
 
-features.addEventListener("click", () => {
-  features.classList.toggle("clicked");
-  featuresMenu.classList.toggle("show");
+const menuIcon = document.querySelector("header .menu-icon") as HTMLSpanElement;
+const menu = document.querySelector("header .right-side") as HTMLDivElement;
+const closeBtn = document.querySelector("header .close") as HTMLSpanElement;
 
-  if (features.classList.contains("clicked")) {
-    arrowfeat.src = "images/icon-arrow-up.svg";
-  } else {
-    arrowfeat.src = "images/icon-arrow-down.svg";
-  }
-});
+menuIcon.addEventListener("click", () => menu.classList.add("show"));
+closeBtn.addEventListener("click", () => menu.classList.remove("show"));
 
-company.addEventListener("click", () => {
-  company.classList.toggle("clicked");
-  companyMenu.classList.toggle("show");
+const landingImage = document.querySelector(".landing .image img") as HTMLImageElement;
 
-  if (company.classList.contains("clicked")) {
-    arrowcomp.src = "images/icon-arrow-up.svg";
-  } else {
-    arrowcomp.src = "images/icon-arrow-down.svg";
-  }
-});
+const updateLandingImage = () => {
+  landingImage.src = window.innerWidth <= 992
+    ? "images/image-hero-mobile.png"
+    : "images/image-hero-desktop.png";
+};
 
-let menuIcon = document.querySelector("header .menu-icon") as HTMLSpanElement;
-let menu = document.querySelector("header .right-side") as HTMLDivElement;
-
-menuIcon.addEventListener("click", () => {
-  menu.classList.add("show");
-});
-
-let closeBtn = document.querySelector("header .close") as HTMLSpanElement;
-
-closeBtn.addEventListener("click", () => {
-  menu.classList.remove("show");
-});
-
-let landingImage = document.querySelector(".landing .image img") as HTMLImageElement;
-
-if (window.innerWidth <= 992) {
-  landingImage.src = "images/image-hero-mobile.png";
-} else {
-  landingImage.src = "images/image-hero-desktop.png";
-}
-
-window.addEventListener("resize", () => {
-  if (window.innerWidth <= 992) {
-    landingImage.src = "images/image-hero-mobile.png";
-  } else {
-    landingImage.src = "images/image-hero-desktop.png";
-  }
-});
+updateLandingImage();
+window.addEventListener("resize", updateLandingImage);
